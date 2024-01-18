@@ -8,7 +8,9 @@ Uso: AutoMyDump.sh [OPCIONES]
 
 Opciones:
          -h, --help              Muestra esta ayuda
+         
          -P, --Plesk             Usa el comando de acceder a la base de datos de Plesk
+         
          -u, --usuario           Indica el usuario con el que logarse en la base de datos
          -p, --password          Indica la contraseña con el que logarse en la base de datos
          -n, --nombre            Indica el nombre que se va a usar para crear backups. Recomendado usar el nombre del servidor
