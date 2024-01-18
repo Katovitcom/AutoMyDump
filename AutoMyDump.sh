@@ -124,7 +124,7 @@ echo -n "- Fichero: "
 ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $8}'
 echo -n "- Fecha: "
 ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $6" - "$7}'
-FECHA=$(ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $6"_"$7}') | sed 's/:/-/g'
+FECHA=$(ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $6"_"$7}' | sed 's/:/-/g')
 echo -n "- Tamaño: "
 ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $5}'
 echo
