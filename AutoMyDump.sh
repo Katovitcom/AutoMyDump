@@ -20,11 +20,11 @@ function ayuda(){
     echo "Uso: AutoMyDump.sh [OPCIONES]"
     echo
     echo "Opciones:"
-    echo -e "\t -h, --help \t Muestra esta ayuda"
-    echo -e "\t -P, --Plesk \t Usa el comando de acceder a la base de datos de Plesk"
-    echo -e "\t -u, --usuario \t Indica el usuario con el que logarse en la base de datos"
+    echo -e "\t -h, --help \t\t Muestra esta ayuda"
+    echo -e "\t -P, --Plesk \t\t Usa el comando de acceder a la base de datos de Plesk"
+    echo -e "\t -u, --usuario \t\t Indica el usuario con el que logarse en la base de datos"
     echo -e "\t -p, --password \t Indica la contraseña con el que logarse en la base de datos"
-    echo -e "\t -n, --nombre \t Indica el nombre que se va a usar para crear backups. Recomendado usar el nombre del servidor"
+    echo -e "\t -n, --nombre \t\t Indica el nombre que se va a usar para crear backups. Recomendado usar el nombre del servidor"
     echo -e "\t -d, --directorio \t Indica donde se van a guardar los backups"
     echo -e "\t -r, --retencion \t Indica cuantos días se van a guardar los backups antes de su borrado automatico"
     echo
@@ -51,7 +51,6 @@ do
             USUARIO="admin"
             CONTRA="`cat /etc/psa/.psa.shadow`"
             shift
-            shift
             ;;
         -u|--usuario)
             USUARIO="$2"
@@ -70,13 +69,6 @@ do
             ;;
         -d|--directorio)
             CARPETA="$2"
-            if [ -z "$CARPETA" ];  then
-                echo "[ERROR] No has indicado el directorio donde guardar los backups."
-                echo "Puedes usar -h para ver la ayuda."; exit
-            elif [ ! -d "$CARPETA" ]; then
-                echo "[ERROR] Debes de indicar la ruta de un directorio que exista."
-                echo "Puedes crearlo con el comando 'mkdir /directorio/'" ; exit
-            fi
             shift
             shift
             ;;
@@ -92,6 +84,18 @@ do
     esac
 done
 
+
+### COMPROBACIONES
+if [ -z "$CARPETA" ];  then
+    echo "[ERROR] No has indicado el directorio donde guardar los backups."
+    echo "Puedes usar -h para ver la ayuda."; exit
+elif [ ! -d "$CARPETA" ]; then
+    echo "[ERROR] Debes de indicar la ruta de un directorio que exista."
+    echo "Puedes crearlo con el comando 'mkdir /directorio/'" ; exit
+elif [ -z "$NOMBRE" ];  then
+    echo "[ERROR] No has indicado el nombre del backup."
+    echo "Puedes usar -h para ver la ayuda."; exit
+fi
 
 
 ### FUNCIONES
@@ -120,7 +124,7 @@ echo -n "- Fichero: "
 ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $8}'
 echo -n "- Fecha: "
 ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $6" - "$7}'
-FECHA=$(ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $6"_"$7}')
+FECHA=$(ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $6"_"$7}') | sed 's/:/-/g'
 echo -n "- Tamaño: "
 ls -lh --time-style=long-iso ${NOMBRE2}.sql | awk '{print $5}'
 echo
@@ -138,7 +142,6 @@ echo
 
 ### BORRAR EL FICHERO SIN COMPRIMIR
 echo -n "Borrando el fichero no comprimido: "
-#echo $NOMBRE2
 find ${CARPETA} -name AutoMyDump_${NOMBRE}.sql -type f -exec rm {} \;
 comprobacion
 echo
