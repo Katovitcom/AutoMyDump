@@ -1,0 +1,2 @@
+# AutoMyDump
+Automate mysqldump backups 
