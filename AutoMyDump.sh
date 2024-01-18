@@ -2,7 +2,7 @@
 #
 # Luis Alarcos (c)
 # Fecha 2024-01-18
-# V1.1.4
+# V1.1.5
 
 echo
 echo " [ AutoMyDump ] "
